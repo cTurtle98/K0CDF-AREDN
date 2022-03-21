@@ -9,3 +9,9 @@
   local_action:
     community.crypto.openssh_keypair:
       path: $(HOME)/.ssh/k0cdf_k8s_key
+
+- name: copy key to k8s hosts
+  local_action:
+    ansible.posix.authorized_key:
+      key: $(HOME)/.ssh/k0cdf_k8s_key
+      user: ubuntu
