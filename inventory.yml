@@ -1,0 +1,3 @@
+all:
+  hosts:
+    k0cdf-k8s-pi-[1:3]
