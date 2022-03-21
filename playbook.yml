@@ -5,13 +5,22 @@
 #
 ---
 
-- name: setup local ssh keys for cluster
+- name: local setup
   local_action:
-    community.crypto.openssh_keypair:
-      path: $(HOME)/.ssh/k0cdf_k8s_key
+  tasks:
+    -name: generate ssh keypair for use with k8s hosts
+      community.crypto.openssh_keypair:
+        path: $(HOME)/.ssh/k0cdf_k8s_key
 
-- name: copy key to k8s hosts
+- name: credentials setup
   hosts: all
-    ansible.posix.authorized_key:
-      key: $(HOME)/.ssh/k0cdf_k8s_key.pub
-      user: ubuntu
+  tasks:
+    - name: copy credentials to nodes
+      ansible.posix.authorized_key:
+       key: $(HOME)/.ssh/k0cdf_k8s_key.pub
+       user: ubuntu
+
+- name: install depedances
+  hosts: all
+  Tasks:
+    
