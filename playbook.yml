@@ -11,7 +11,7 @@
       path: $(HOME)/.ssh/k0cdf_k8s_key
 
 - name: copy key to k8s hosts
-  local_action:
+  hosts: all
     ansible.posix.authorized_key:
-      key: $(HOME)/.ssh/k0cdf_k8s_key
+      key: $(HOME)/.ssh/k0cdf_k8s_key.pub
       user: ubuntu
