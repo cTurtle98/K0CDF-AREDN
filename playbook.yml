@@ -5,3 +5,7 @@
 #
 ---
 
+- name: setup local ssh keys for cluster
+  local_action:
+    community.crypto.openssh_keypair:
+      path: $(HOME)/.ssh/k0cdf_k8s_key
