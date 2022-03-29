@@ -1,7 +1,7 @@
 #
 # ansible playbook
 #
-# configure local machine for cluster access and configure cluster machines
+# CONFIGURE K0CDF-K8S-PI cluster
 #
 ---
 
@@ -42,6 +42,7 @@
     - deploy_target == 'pi'
 # end stolen
 
+# https://github.com/mike-matera/cis-infrastructure/blob/master/ansible/roles/microk8s/tasks/main.yaml#L34
 - name: install microk8s with snap
   become: yes
   community.general.snap:
@@ -49,8 +50,28 @@
     state: present
     classic: yes
 
-# inspired by https://github.com/mike-matera/cis-infrastructure/blob/master/ansible/roles/microk8s-add-node/tasks/main.yaml
+# https://github.com/mike-matera/cis-infrastructure/blob/master/ansible/roles/microk8s/tasks/main.yaml#L40
+name: Add the user to microk8s
+  user:
+    name: {{ ansible_user_id }}
+    groups: microk8s
+    append: yes
+
+# https://github.com/mike-matera/cis-infrastructure/blob/master/ansible/roles/microk8s/tasks/main.yaml#L46
+- name: Reset SSH to allow ubuntu int microk8s group.
+  meta: reset_connection
+
+# https://github.com/mike-matera/cis-infrastructure/blob/master/ansible/roles/microk8s/tasks/main.yaml#L49
+- name: Start microk8s
+  shell: /snap/bin/microk8s start 
+
+# https://github.com/mike-matera/cis-infrastructure/blob/master/ansible/roles/microk8s/tasks/main.yaml#L52
+- name: Wait for microk8s
+  shell: /snap/bin/microk8s status --wait-ready 
+
+
 # inspired by https://github.com/mike-matera/cis-infrastructure/blob/master/ansible/student-cluster.yaml
+# inspired by https://github.com/mike-matera/cis-infrastructure/blob/master/ansible/roles/microk8s-add-node/tasks/main.yaml
 
 - name: create cluster key on pi-1 for pi-2
   hosts: k0cdf-k8s-pi-1
@@ -73,6 +94,8 @@
   hosts: k0cdf-k8s-pi-3
   become: yes
   shell: "/snap/bin/{{ hostvars['k0cdf-k8s-pi-1']['microk8s_join_key'].stdout }} || /bin/true"
+# end inspired
+# end inspired
 
 - name: alias kubectl to mikrok8s.kubectl
   blockinfile:
@@ -80,4 +103,21 @@
     create: yes
     block: |
       alias kubectl="microk8s.kubectl"
+
+# inspired by https://github.com/mike-matera/cis-infrastructure/blob/master/ansible/roles/microk8s/tasks/main.yaml#L55
+
+- name: Enable Helm v3
+  shell: /snap/bin/microk8s enable helm3
+
+- name: Enable kube dns.
+  shell: /snap/bin/microk8s enable dns 
+
+- name: Enable MetalLB
+  shell: /snap/bin/microk8s enable metallb "10.156.98.185-10.156.98.190"
+
+- name: Enable Ingress
+  shell: /snap/bin/microk8s enable ingress 
+
+- name: Enable dashboard
+  shell: /snap/bin/microk8s enable dashboard 
 
