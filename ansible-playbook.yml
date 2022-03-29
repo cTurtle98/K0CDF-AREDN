@@ -64,9 +64,9 @@
     classic: yes
 
 # https://github.com/mike-matera/cis-infrastructure/blob/master/ansible/roles/microk8s/tasks/main.yaml#L40
-name: Add the user to microk8s
+- name: Add the user to microk8s
   user:
-    name: {{ ansible_user_id }}
+    name: "{{ ansible_user_id }}"
     groups: microk8s
     append: yes
 
