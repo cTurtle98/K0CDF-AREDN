@@ -74,3 +74,10 @@
   become: yes
   shell: "/snap/bin/{{ hostvars['k0cdf-k8s-pi-1']['microk8s_join_key'].stdout }} || /bin/true"
 
+- name: alias kubectl to mikrok8s.kubectl
+  blockinfile:
+    path: /home/ciaran/.bash_alias
+    create: yes
+    block: |
+      alias kubectl="microk8s.kubectl"
+
