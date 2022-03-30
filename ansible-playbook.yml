@@ -33,26 +33,15 @@
   tasks:
   - name: Enable required cgroup features.
     lineinfile:
-      path: /boot/cmdline.txt
+      path: /boot/firmware/cmdline.txt
       backrefs: True
       regexp: '(^.+rootwait(\s+(?!cgroup_enable=cpuset cgroup_enable=memory)[\w=/\-\.]+)*)\s*$'
       line: '\1 cgroup_enable=cpuset cgroup_enable=memory'
       state: present
     register: cgroup_features
-    when: deploy_target == 'pi'
 
-  - name: Reboot immediately if cgroup features changed.
-    shell: "sleep 5 && reboot"
-    async: 1
-    poll: 0
-    when: cgroup_features is changed
-
-  - name: Wait for the reboot to complete if cgroup features changed.
-    wait_for_connection:
-      connect_timeout: 20
-      sleep: 5
-      delay: 5
-      timeout: 300
+  - name: reboot to apply cgroup changes
+    ansible.builtin.reboot:
     when: cgroup_features is changed
   # end stolen
 
@@ -164,7 +153,7 @@
     shell: /snap/bin/microk8s enable dns 
 
   - name: Enable MetalLB
-    shell: /snap/bin/microk8s enable metallb "10.156.98.185-10.156.98.190"
+    shell: /snap/bin/microk8s enable metallb "10.156.131.135-10.156.131.140"
 
   - name: Enable Ingress
     shell: /snap/bin/microk8s enable ingress 
