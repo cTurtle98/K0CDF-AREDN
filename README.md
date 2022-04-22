@@ -1,21 +1,6 @@
-# K0CDF-K8s
-K0CDF AREDN MicroK8s Cluster
+# K0CDF-AREDN
 
-This Cluster runs the K0CDF AREDN infrastructure
-
-## The Cluster
-
-### k0cdf-k8s-pi-1
-
-Raspberry Pi 4B 2GB
+infrastructure code for K0CDF AREDN
 
 
-### k0cdf-k8s-pi-2
-
-Raspberry Pi 3B+
-
-
-### k0cdf-k8s-pi-3
-
-Raspberry Pi 3B+
-
+this is the code that defines my infrastructure I host on the Amateur Radio Emergency Data Network
