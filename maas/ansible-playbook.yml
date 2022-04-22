@@ -9,36 +9,54 @@
   become: yes
   hosts: k0cdf-maas
   tasks:
+
   - name: apt update
     ansible.builtin.apt:
       update_cache: yes
+
   - name: apt upgrade
     ansible.builtin.apt:
       upgrade: yes
-  - name: snap install maas
+
+  - name: snap install packages
     community.general.snap:
-      name: maas
-  - name: apt install postgres
+      name: 
+      - maas
+
+  - name: apt install packages
     ansible.builtin.apt:
-      name: postgresql
+      name: 
+      - postgresql
+      - libpq-dev
+      - python3-pip
+
+  - name: pip install packages
+    ansible.builtin.pip:
+      name:
+      - psycopg2
+    
 
 - name: configure postgres
   become: yes
   hosts: k0cdf-maas
   tasks:
+
   - name: create postgres user for maas
     community.postgresql.postgresql_user:
       name: maasuser
       password: maas123
+
   - name: create postgres database
     community.postgresql.postgresql_db:
       name: maas
+
   - name: postgres grant permissions
     community.postgresql.postgresql_privs:
       database: maas
       roles: maasuser
       type: database
       privs: all
+      
   - name: pg hba config
     ansible.builtin.lineinfile:
       path: /etc/postgresql/10/main/pg_hba.conf
