@@ -1,0 +1,23 @@
+#
+# ansible playbook
+# 
+# configure k0cdf-maas
+#
+---
+
+- name: install packages
+  become: yes
+  hosts: all
+  tasks:
+  - name: apt update
+    ansible.builtin.apt:
+      update_cache: yes
+  - name: apt upgrade
+    ansible.builtin.apt:
+      upgrade: yes
+  - name: apt install postgres
+    ansible.builtin.apt:
+      name: postgresql
+  - name: snap install maas
+    community.general.snap:
+      name: maas
