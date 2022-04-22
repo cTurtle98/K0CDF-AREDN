@@ -7,7 +7,7 @@
 
 - name: install packages
   become: yes
-  hosts: all
+  hosts: k0cdf-maas
   tasks:
   - name: apt update
     ansible.builtin.apt:
@@ -24,7 +24,7 @@
 
 - name: configure postgres
   become: yes
-  hosts: all
+  hosts: k0cdf-maas
   tasks:
   - name: create postgres user for maas
     community.postgresql.postgresql_user:
@@ -39,3 +39,8 @@
       roles: maasuser
       type: database
       privs: all
+  - name: pg hba config
+    ansible.builtin.lineinfile:
+      path: /etc/postgresql/10/main/pg_hba.conf
+      line: host maas maaszeljko 0/0 md5
+
