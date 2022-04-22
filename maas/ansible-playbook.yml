@@ -15,9 +15,27 @@
   - name: apt upgrade
     ansible.builtin.apt:
       upgrade: yes
-  - name: apt install postgres
-    ansible.builtin.apt:
-      name: postgresql
   - name: snap install maas
     community.general.snap:
       name: maas
+  - name: apt install postgres
+    ansible.builtin.apt:
+      name: postgresql
+
+- name: configure postgres
+  become: yes
+  hosts: all
+  tasks:
+  - name: create postgres user for maas
+    community.postgresql.postgresql_user:
+      name: maasuser
+      password: maas123
+  - name: create postgres database
+    community.postgresql.postgresql_db:
+      name: maas
+  - name: postgres grant permissions
+    community.postgresql.postgresql_privs:
+      database: maas
+      roles: maasuser
+      type: database
+      privs: all
