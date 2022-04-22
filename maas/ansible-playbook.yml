@@ -8,6 +8,7 @@
 - name: install packages
   become: yes
   hosts: k0cdf-maas
+  tags: packages
   tasks:
 
   - name: apt update
@@ -26,18 +27,25 @@
   - name: apt install packages
     ansible.builtin.apt:
       name: 
+      - acl
       - postgresql
       - libpq-dev
       - python3-pip
+      - python3-psycopg2
 
   - name: pip install packages
     ansible.builtin.pip:
       name:
       - psycopg2
+  
+  - name: reboot
+    ansible.builtin.reboot:
     
 
+
 - name: configure postgres
-  become: yes
+  become: true
+  become_user: postgres
   hosts: k0cdf-maas
   tasks:
 
@@ -56,9 +64,23 @@
       roles: maasuser
       type: database
       privs: all
-      
+
+
+
+- name: configure maas
+  become: true
+  hosts: k0cdf-maas
+  tasks:
+
   - name: pg hba config
     ansible.builtin.lineinfile:
-      path: /etc/postgresql/10/main/pg_hba.conf
+      path: /etc/postgresql/12/main/pg_hba.conf
       line: host maas maaszeljko 0/0 md5
 
+  - name: maas init
+    ansible.builtin.shell:
+      cmd: maas init region+rack --database-uri "postgres://maasuser:maas123@localhost/maas"
+
+  - name: maas createadmin
+    ansible.builtin.shell:
+      cmd: maas createadmin --username ciaran --password k0cdf73 --email cq@k0cdf.us --ssh-import gh:cTurtle98
