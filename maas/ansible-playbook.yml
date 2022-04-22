@@ -77,10 +77,14 @@
       path: /etc/postgresql/12/main/pg_hba.conf
       line: host maas maaszeljko 0/0 md5
 
-  - name: maas init
-    ansible.builtin.shell:
-      cmd: maas init region+rack --database-uri "postgres://maasuser:maas123@localhost/maas"
-
-  - name: maas createadmin
-    ansible.builtin.shell:
-      cmd: maas createadmin --username ciaran --password k0cdf73 --email cq@k0cdf.us --ssh-import gh:cTurtle98
+# maas init doesn't seem to have a non interactive mode
+#
+#  - name: maas init
+#    ansible.builtin.command:
+#      cmd: maas init region+rack --database-uri "postgres://maasuser:maas123@localhost/maas"
+#      stdin:
+#      stdin_add_newline: yes
+#
+#  - name: maas createadmin
+#    ansible.builtin.command:
+#      cmd: maas createadmin --username ciaran --password k0cdf73 --email cq@k0cdf.us --ssh-import gh:cTurtle98
