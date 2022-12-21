@@ -1,4 +1,0 @@
-all:
-  hosts:
-    k0cdf-maas:
-      ansible_user: ciaran
