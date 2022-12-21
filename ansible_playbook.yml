@@ -23,7 +23,7 @@
 #
 ---
 
-- name: apt stuffs
+- name: run apt maintinace on PVE
   hosts: PVE
   roles:
     - apt-maintinance
