@@ -1,0 +1,13 @@
+K0cdf-SRV1:
+  children:
+    PVE:
+      hosts:
+        k0cdf-srv1-pve1.local.mesh:
+          ansible_host: 10.30.15.41
+          ansible_user: root
+        k0cdf-srv1-pve2.local.mesh:
+          ansible_host: 10.30.15.42
+          ansible_user: root
+        k0cdf-srv1-pve3.local.mesh:
+          ansible_host: 10.30.15.43
+          ansible_user: root
