@@ -32,6 +32,11 @@ K0cdf-SRV1:
     k0cdf-srv1-pve3.local.mesh:
       ansible_host: 10.30.15.43
       ansible_user: root
+
+    k0cdf-srv1-snipeit.local.mesh:
+      ansible:host: 10.30.15.51
+      ansible_user: root
+
   children:
     PVE:
       hosts:
