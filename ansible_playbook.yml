@@ -29,7 +29,7 @@
     - apt-maintinance
 
 - name: configure proxmox guests
-  hosts: k0cdf-srv1-pve1.local.mesh
+  hosts: k0cdf-srv1-pve1
   tasks:
 
   - name: snipe-it vm creation
@@ -57,10 +57,25 @@
 
   - name: start snipe it vm
     community.general.proxmox:
-      api_host: k0cdf-srv1-pve1.local.mesh
+      api_host: k0cdf-srv1-pve1
       api_user: root@pam
       api_token_id: ansible-k0cdf-aredn
       api_token_secret: f9f8b8a8-318a-49b9-8d32-b5f32a150450
       vmid: 151
       state: started
+
+  - name: apt maintinance on guests
+    ansible.builtin.include_role:
+      name: apt-maintinance
+
+- name: install snipe-it
+  hosts: k0cdf-srv1-snipeit
+  tasks:
+    - name: Install and Configure Snipe-IT
+      ansible.builtin.include_role: 
+        name: wiggels.snipeit
+      vars:
+        - snipe_domain: k0cdf-srv1-snipeit.local.mesh
+        - snipe_app_timezone: America/Los_Angeles
+        - snipe_db_password: k0cdf
 

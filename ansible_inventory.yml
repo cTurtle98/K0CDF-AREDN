@@ -23,24 +23,24 @@
 #
 K0cdf-SRV1:
   hosts:
-    k0cdf-srv1-pve1.local.mesh:
+    k0cdf-srv1-pve1:
       ansible_host: 10.30.15.41
       ansible_user: root
-    k0cdf-srv1-pve2.local.mesh:
+    k0cdf-srv1-pve2:
       ansible_host: 10.30.15.42
       ansible_user: root
-    k0cdf-srv1-pve3.local.mesh:
+    k0cdf-srv1-pve3:
       ansible_host: 10.30.15.43
       ansible_user: root
 
-    k0cdf-srv1-snipeit.local.mesh:
-      ansible:host: 10.30.15.51
+    k0cdf-srv1-snipeit:
+      ansible_host: 10.30.15.51
       ansible_user: root
 
   children:
     PVE:
       hosts:
-        k0cdf-srv1-pve1.local.mesh:
-        k0cdf-srv1-pve2.local.mesh:
-        k0cdf-srv1-pve3.local.mesh:
-  
+        k0cdf-srv1-pve1:
+        k0cdf-srv1-pve2:
+        k0cdf-srv1-pve3:
+
