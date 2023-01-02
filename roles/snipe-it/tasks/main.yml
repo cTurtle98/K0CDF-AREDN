@@ -22,3 +22,8 @@
 # cq@k0cdf.us
 #
 
+- name: clone snipe-it to /opt/
+  git:
+    repo: https://github.com/snipe/snipe-it
+    dest: /opt/snipe-it
+
