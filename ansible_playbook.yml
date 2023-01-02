@@ -64,13 +64,13 @@
       vmid: 151
       state: started
 
-  - name: apt maintinance on guests
-    ansible.builtin.include_role:
-      name: apt-maintinance
-
 - name: install snipe-it
   hosts: k0cdf-srv1-snipeit
   tasks:
+    - name: apt maintinance on guests
+      ansible.builtin.include_role:
+        name: apt-maintinance
+
     - name: Install and Configure Snipe-IT
       ansible.builtin.include_role: 
         name: wiggels.snipeit
