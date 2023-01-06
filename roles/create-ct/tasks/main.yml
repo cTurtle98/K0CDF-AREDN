@@ -1,0 +1,61 @@
+# /roles/create-ct/tasks/main.yml
+#
+# ansible playbook task for creating an lxc container
+#
+# Copyright (C) 2022  Ciaran Farley
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# K0CDF Ciaran Farley
+# 228 16th Ave. Santa Cruz CA 95062.
+# cq@k0cdf.us
+#
+---
+
+- name: '{{ pve_ct_hostname }} ct creation'
+  community.general.proxmox:
+    api_host: '{{ pve_api_host }}'
+    api_user: root@pam
+    api_token_id: '{{ pve_api_token_id }}'
+    api_token_secret: '{{ pve_api_token_secret }}'
+
+    state: present
+    node: k0cdf-srv1-pve1
+    vmid: '{{ pve_ct_id }}'
+    hostname: '{{ pve_ct_hostname }}'
+    searchdomain: local.mesh  
+    netif: '{"net0":"name=eth0,gw={{ pve_gateway }},ip={{ pve_ct_ip }}/{{ pve_subnet }},bridge=vmbr0"}'
+    password: k0cdf
+    pubkey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC+EpFFtRjzShCY/QRL+2c+a0uDZl49MoAX74swsLVj0FU9lsMXclzLdy5cZXFDPSvVUH0ZgmCNJROuGAZ8LceGCqGTVxa/QYnaWSz9Q2qp4HU9d7FKLTft0cZYne3Vw4n2q46tFwavWo/br+6LknbCoa+qMYYRLaTvIkyjtQGkZQA9rR9HKJdEUhQUoyXvS6Z7ymC6zwUpFOmLAtRMPRPuGVhq/DRgRE2irPupjw8/mQ7pcWmhHGB1wfl9QGsqL/zxLB02rcb8rEsak+8PYMbc719dHvyxICgmbz7wpXWiteW9TuyY5IUM6sun05Ba9rQrUSK8JFLX/e0Ueuxp2SAKFGlS8iGeBgITmNDOKGCE+yz8X9U/4ajXDxSmAdpK+jehmMbt9OUQhqyD/1hWV21AeN70cAsKIo+3JfoaPZnnjDBxMyinWIKsnVjmIeBsTVes2eGfe3m0h+Bfe6E+2czvGFrvcn6xPnIQQBc13kXIhrYuRFtJMaUpTPQTOrjaAgc= ciaran@ciaran-ThinkPad-P14s-Gen-2a
+    unprivileged: true
+    disk: ceph-pool:32
+    cores: 2
+    memory: 1024
+    swap: 0
+    onboot: true
+    ostemplate: local:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst
+
+- name: 'start ct {{ pve_ct_hostname }}'
+  community.general.proxmox:
+    api_host: '{{ pve_api_host }}'
+    api_user: root@pam
+    api_token_id: '{{ pve_api_token_id }}'
+    api_token_secret: '{{ pve_api_token_secret }}'
+    vmid: '{{ pve_ct_id }}'
+    state: started
+  
+- name: 'wait for ct {{ pve_ct_hostname }} to start'
+  ansible.builtin.wait_for:
+    host: '{{ pve_ct_hostname }}'
+    port: 22

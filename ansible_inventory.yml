@@ -22,6 +22,12 @@
 # cq@k0cdf.us
 #
 K0cdf-SRV1:
+  vars:
+    pve_api_host: 'k0cdf-srv1-pve1'
+    pve_api_token_id: 'ansible-k0cdf-aredn'
+    pve_api_token_secret: 'f9f8b8a8-318a-49b9-8d32-b5f32a150450'
+    pve_gateway: '10.30.15.33'
+    pve_subnet: '27'
   hosts:
     k0cdf-srv1-pve1:
       ansible_host: 10.30.15.41
