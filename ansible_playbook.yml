@@ -29,12 +29,23 @@
   roles:
     - apt-maintinance
 
+
+- name: create nginxproxymanager vm
+  hosts: k0cdf-srv1-pve1
+  vars:
+    pve_ct_id: '150'
+    pve_ct_hostname: 'k0cdf-srv1-srv'
+    pve_ct_ip: '10.30.15.50'
+  roles:
+    - create-ct
+
+
 - name: create snipe it ct
   hosts: k0cdf-srv1-pve1
   vars:
-    - pve_ct_id: '151'
-    - pve_ct_hostname: 'k0cdf-srv1-snipeit'
-    - pve_ct_ip: '10.30.15.51'
+    pve_ct_id: '151'
+    pve_ct_hostname: 'k0cdf-srv1-snipeit'
+    pve_ct_ip: '10.30.15.51'
   roles:
     - create-ct
 
