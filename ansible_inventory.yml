@@ -39,6 +39,9 @@ K0cdf-SRV1:
       ansible_host: 10.30.15.43
       ansible_user: root
 
+    k0cdf-srv1-srv:
+      ansible_host: 10.30.15.50
+      ansible_user: root
     k0cdf-srv1-snipeit:
       ansible_host: 10.30.15.51
       ansible_user: root
