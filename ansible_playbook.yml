@@ -63,6 +63,11 @@
       api_token_secret: f9f8b8a8-318a-49b9-8d32-b5f32a150450
       vmid: 151
       state: started
+  
+  - name: wait for snipe-it container to start
+    ansible.builtin.wait_for:
+      host: k0cdf-srv1-snipeit
+      port: 22
 
 - name: install snipe-it
   hosts: k0cdf-srv1-snipeit
