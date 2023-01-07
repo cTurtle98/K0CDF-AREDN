@@ -45,6 +45,7 @@
     swap: 0
     onboot: true
     ostemplate: local:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst
+  register: pve_guest
 
 - name: 'start ct {{ pve_ct_hostname }}'
   community.general.proxmox:
@@ -55,6 +56,17 @@
     vmid: '{{ pve_ct_id }}'
     state: started
   
+- name: remove old host key from known_hosts
+  ansible.builtin.known_hosts:
+    name: '{{ pve_ct_ip }}'
+    state: absent
+  when: pve_guest.changed
+
+- name: disable host key checking for first connection
+  set_fact:
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+  when: pve_guest.changed
+
 - name: 'wait for ct {{ pve_ct_hostname }} to start'
   ansible.builtin.wait_for:
     host: '{{ pve_ct_hostname }}'
