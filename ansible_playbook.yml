@@ -67,4 +67,3 @@
         - snipe_domain: k0cdf-srv1-snipeit.local.mesh
         - snipe_app_timezone: America/Los_Angeles
         - snipe_db_password: k0cdf
-
