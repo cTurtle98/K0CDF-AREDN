@@ -51,10 +51,12 @@
 
 
 
+
+
 - name: install snipe-it
   hosts: k0cdf-srv1-snipeit
   tasks:
-    - name: apt maintinance on guests
+    - name: apt maintinance on snipe-it
       ansible.builtin.include_role:
         name: apt-maintinance
 
