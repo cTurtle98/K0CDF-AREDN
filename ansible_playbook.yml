@@ -24,13 +24,13 @@
 ---
 
 
-- name: run apt maintinace on PVE
+- name: run apt maintinace on PVE hosts
   hosts: PVE
   roles:
     - apt-maintinance
 
 
-- name: create nginxproxymanager vm
+- name: create nginxproxymanager container
   hosts: k0cdf-srv1-pve1
   vars:
     pve_ct_id: '150'
@@ -40,7 +40,7 @@
     - create-ct
 
 
-- name: create snipe it ct
+- name: create snipe it container
   hosts: k0cdf-srv1-pve1
   vars:
     pve_ct_id: '151'
