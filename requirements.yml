@@ -1,0 +1,11 @@
+# /requirements.yml
+#
+# ansible requirements file
+#
+
+# community general roles
+- name: community.general
+
+# snipe-it role
+- name: wiggels.snipeit
+
