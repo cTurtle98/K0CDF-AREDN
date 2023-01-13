@@ -1,0 +1,12 @@
+#/dependabot.yml
+#
+# github dependabot configuration
+#
+# documentation: https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  - package-ecosystem: "pip" # packages are installed with pip
+    directory: "/" # requirements.txt is in the repo root
+    schedule:
+      interval: "weekly"
