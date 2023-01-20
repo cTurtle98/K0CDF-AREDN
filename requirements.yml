@@ -9,3 +9,5 @@
 # snipe-it role
 - name: wiggels.snipeit
 
+# aredn node management roles
+- name: kn6plv.aredn
