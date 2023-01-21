@@ -21,6 +21,40 @@
 # 228 16th Ave. Santa Cruz CA 95062.
 # cq@k0cdf.us
 #
+nodes:
+  hosts:
+
+    # hosts deployed at cabrillo
+    K0cdf-SRV1:
+      ansible_host: 10.192.240.121
+    K0CDF-CABRILLO-STEM-NSM2L:
+      ansible:host: 10.244.142.27
+
+    # hosts deployed at home
+    K0CDF-Home-hAP:
+      ansible_host: 10.121.200.56
+    K0CDF-HOME-TO-CABRILLO-63EAST-LHG2XL:
+      ansible:host: 10.153.41.163
+    K0CDF-Home-Omni-2GHz:
+      ansible_host: 10.178.201.118
+    K0CDF-RM5-86-56-233:
+      ansible_host: 10.86.56.233
+
+
+    # hosts deployed portable
+    K0CDF-Portable-hAP:
+      ansible_host: 10.121.198.43
+
+
+    # hosts not deployed
+    K0CDF-GLAR750-11-187-8:
+      ansible_host: 10.11.187.8
+  
+  children:
+    nodes-dev:
+      hosts:
+        K0CDF-GLAR750-11-187-8:
+
 K0cdf-SRV1:
   vars:
     pve_api_host: 'k0cdf-srv1-pve1'
@@ -39,6 +73,9 @@ K0cdf-SRV1:
       ansible_host: 10.30.15.43
       ansible_user: root
 
+    k0cdf-srv1-meshchat:
+      ansible_host: 10.30.15.48
+      ansible_user: root
     k0cdf-srv1-srv:
       ansible_host: 10.30.15.50
       ansible_user: root
