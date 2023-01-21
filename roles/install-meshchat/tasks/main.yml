@@ -1,0 +1,11 @@
+# /roles/install-meshchat/tasks/main.yml
+
+- name: install pre-req
+  apt:
+    name:
+    - curl
+    - apache2
+
+- name: install meshchat
+  apt:
+    deb: 'https://s3.amazonaws.com/aredn/meshchat_1.02_all.deb'
