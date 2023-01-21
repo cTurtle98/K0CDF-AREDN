@@ -29,6 +29,12 @@
   roles:
     - apt-maintinance
 
+- name: create meshchat container
+  hosts: k0cdf-srv1-pve1
+  vars: 
+    pve_ct_id: '148'
+    pve_ct_hostname: 'k0cdf-srv1-meshchat'
+    pve_ct_ip: '10.30.15.48'
 
 - name: create nginxproxymanager container
   hosts: k0cdf-srv1-pve1
@@ -38,7 +44,6 @@
     pve_ct_ip: '10.30.15.50'
   roles:
     - create-ct
-
 
 - name: create snipe it container
   hosts: k0cdf-srv1-pve1
@@ -50,6 +55,15 @@
     - create-ct
 
 
+- name: install meshchat
+  hosts: k0cdf-srv1-meshchat
+  tasks:
+    - name: apt maintinance on meshchat
+      ansible.builtin.include_role:
+        name: apt-maintinance
+    - name: install meshchat
+      ansible.builtin.include_role:
+        name: install-meshchat
 
 
 
@@ -64,6 +78,6 @@
       ansible.builtin.include_role: 
         name: wiggels.snipeit
       vars:
-        - snipe_domain: k0cdf-srv1-snipeit.local.mesh
-        - snipe_app_timezone: America/Los_Angeles
-        - snipe_db_password: k0cdf
+        snipe_domain: k0cdf-srv1-snipeit.local.mesh
+        snipe_app_timezone: America/Los_Angeles
+        snipe_db_password: k0cdf
