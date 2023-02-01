@@ -74,5 +74,5 @@
 
 - name: 'wait for ct {{ pve_ct_hostname }} to start'
   ansible.builtin.wait_for:
-    host: '{{ pve_ct_hostname }}'
+    host: '{{ pve_ct_ip }}'
     port: 22
